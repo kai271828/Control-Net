@@ -669,7 +669,7 @@ def parse_args(input_args=None):
             " or the same number of `--validation_prompt`s and `--validation_image`s"
         )
 
-    if args.resolution_height % 8 != 0 or args.resolution.width % 8 != 0:
+    if args.resolution_height % 8 != 0 or args.resolution_width % 8 != 0:
         raise ValueError(
             "`--resolution_height` and `--resolution_width` must be divisible by 8 for consistently sized encoded images between the VAE and the controlnet encoder."
         )
@@ -762,7 +762,8 @@ def make_train_dataset(args, tokenizer, accelerator):
     image_transforms = transforms.Compose(
         [
             transforms.Resize(
-                (args.resolution_height, args.resolution_width), interpolation=transforms.InterpolationMode.BILINEAR
+                (args.resolution_height, args.resolution_width),
+                interpolation=transforms.InterpolationMode.BILINEAR,
             ),
             transforms.CenterCrop((args.resolution_height, args.resolution_width)),
             transforms.ToTensor(),
@@ -773,7 +774,8 @@ def make_train_dataset(args, tokenizer, accelerator):
     conditioning_image_transforms = transforms.Compose(
         [
             transforms.Resize(
-                (args.resolution_height, args.resolution_width), interpolation=transforms.InterpolationMode.BILINEAR
+                (args.resolution_height, args.resolution_width),
+                interpolation=transforms.InterpolationMode.BILINEAR,
             ),
             transforms.CenterCrop((args.resolution_height, args.resolution_width)),
             transforms.ToTensor(),
